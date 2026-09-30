@@ -1,5 +1,5 @@
 import { Link } from 'react-router'
-import { PageTitle } from '../components/AppLayout'
+import { PageTitle } from '../components/PageTitle'
 import { QueryState } from '../components/QueryState'
 import { SummaryCards } from '../components/SummaryCards'
 import { useToast } from '../components/Toast'

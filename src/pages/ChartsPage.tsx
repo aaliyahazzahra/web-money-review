@@ -1,4 +1,4 @@
-import { PageTitle } from '../components/AppLayout'
+import { PageTitle } from '../components/PageTitle'
 
 export function ChartsPage() {
   return <PageTitle>Charts</PageTitle>
