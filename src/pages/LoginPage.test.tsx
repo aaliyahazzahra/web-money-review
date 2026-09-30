@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { MemoryRouter, Route, Routes } from 'react-router'
-import { InvalidCredentialsError } from '../services/errors'
+import { EmailNotConfirmedError, InvalidCredentialsError } from '../services/errors'
 
 const signIn = vi.fn()
 vi.mock('../services/auth', () => ({ signIn: (...a: unknown[]) => signIn(...a) }))
@@ -43,6 +43,13 @@ describe('LoginPage', () => {
     renderLogin()
     await fillAndSubmit()
     expect(await screen.findByText('Invalid email or password')).toBeInTheDocument()
+  })
+
+  it('shows the real reason for other failures', async () => {
+    signIn.mockRejectedValue(new EmailNotConfirmedError())
+    renderLogin()
+    await fillAndSubmit()
+    expect(await screen.findByText('Email not confirmed')).toBeInTheDocument()
   })
 
   it('disables the button while signing in', async () => {
