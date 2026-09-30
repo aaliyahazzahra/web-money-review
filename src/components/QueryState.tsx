@@ -5,13 +5,15 @@ import { secondaryButton } from './ui'
 interface QueryStateProps {
   isLoading: boolean
   isError: boolean
+  /** Data lama masih ada: refetch yang gagal tidak mengganti konten dengan tampilan error. */
+  hasData?: boolean
   onRetry(): void
   /** Jumlah baris skeleton saat memuat. */
   rows?: number
   children: ReactNode
 }
 
-export function QueryState({ isLoading, isError, onRetry, rows = 3, children }: QueryStateProps) {
+export function QueryState({ isLoading, isError, hasData = false, onRetry, rows = 3, children }: QueryStateProps) {
   if (isLoading) {
     return (
       <div aria-busy="true" aria-label="Loading" className="space-y-2">
@@ -21,7 +23,7 @@ export function QueryState({ isLoading, isError, onRetry, rows = 3, children }: 
       </div>
     )
   }
-  if (isError) {
+  if (isError && !hasData) {
     return (
       <div className="flex flex-col items-center gap-3 py-6 text-center">
         <p className="text-muted">Couldn't load data</p>

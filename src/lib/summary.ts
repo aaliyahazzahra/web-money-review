@@ -76,7 +76,7 @@ export function groupByDate(txs: Transaction[]): DateGroup[] {
 /** Abu-abu netral untuk irisan "Other" (bukan warna kategori). */
 export const OTHER_COLOR = '#8c8a86'
 
-/** Simpan `max - 1` kategori teratas, sisanya digabung menjadi "Other". */
+/** Simpan `max - 1` kategori teratas, sisanya digabung (label beda dari kategori bernama "Other"). */
 export function collapseCategories(rows: CategoryTotal[], max: number): CategoryTotal[] {
   if (rows.length <= max) return rows
   const grand = rows.reduce((sum, r) => sum + r.total, 0)
@@ -84,6 +84,6 @@ export function collapseCategories(rows: CategoryTotal[], max: number): Category
   const otherTotal = grand - kept.reduce((sum, r) => sum + r.total, 0)
   return [
     ...kept,
-    { categoryId: -1, name: 'Other', color: OTHER_COLOR, total: otherTotal, percent: Math.round((otherTotal / grand) * 1000) / 10 },
+    { categoryId: -1, name: 'Other categories', color: OTHER_COLOR, total: otherTotal, percent: Math.round((otherTotal / grand) * 1000) / 10 },
   ]
 }

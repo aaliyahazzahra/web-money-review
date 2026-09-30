@@ -1,5 +1,5 @@
-import { ArrowDown, ArrowUp, Trash2 } from 'lucide-react'
-import { type FormEvent, useRef, useState } from 'react'
+import { ArrowDown, ArrowUp, LoaderCircle, Trash2 } from 'lucide-react'
+import { type FormEvent, useEffect, useRef, useState } from 'react'
 import { todayISO } from '../lib/dates'
 import type { Category, Transaction, TransactionInput, TransactionType } from '../types'
 import { AmountInput } from './AmountInput'
@@ -35,6 +35,16 @@ export function TransactionForm({ initial, categories, onSubmit, onDone, onDelet
   const [submitting, setSubmitting] = useState(false)
   // Ref mencegah submit ganda sebelum state "submitting" sempat dirender ulang.
   const inFlight = useRef(false)
+  // Tanggal default mengikuti "hari ini" selama belum diubah pengguna (tab HP bisa terbuka semalaman).
+  const dateTouched = useRef(initial !== undefined)
+
+  useEffect(() => {
+    const onVisible = () => {
+      if (document.visibilityState === 'visible' && !dateTouched.current) setDate(todayISO())
+    }
+    document.addEventListener('visibilitychange', onVisible)
+    return () => document.removeEventListener('visibilitychange', onVisible)
+  }, [])
 
   function changeType(next: TransactionType) {
     if (next === type) return
@@ -51,10 +61,12 @@ export function TransactionForm({ initial, categories, onSubmit, onDone, onDelet
     setErrors(nextErrors)
     if (nextErrors.amount || nextErrors.category) return
 
+    const submitDate = dateTouched.current ? date : todayISO()
+    if (submitDate !== date) setDate(submitDate)
     inFlight.current = true
     setSubmitting(true)
     try {
-      await onSubmit({ type, amount: amount!, categoryId: categoryId!, date, note: note.trim() || null })
+      await onSubmit({ type, amount: amount!, categoryId: categoryId!, date: submitDate, note: note.trim() || null })
       if (!initial) {
         setAmount(null)
         setCategoryId(null)
@@ -111,7 +123,11 @@ export function TransactionForm({ initial, categories, onSubmit, onDone, onDelet
             required
             className={input}
             value={date}
-            onChange={(e) => e.target.value && setDate(e.target.value)}
+            onChange={(e) => {
+              if (!e.target.value) return
+              dateTouched.current = true
+              setDate(e.target.value)
+            }}
           />
         </div>
         <div>
@@ -132,7 +148,8 @@ export function TransactionForm({ initial, categories, onSubmit, onDone, onDelet
             <Trash2 size={18} aria-hidden /> Delete
           </button>
         )}
-        <button type="submit" className={`${primaryButton} flex-1`} disabled={submitting}>
+        <button type="submit" className={`${primaryButton} flex-1`} disabled={submitting} aria-busy={submitting}>
+          {submitting && <LoaderCircle size={18} aria-hidden className="animate-spin" />}
           Save
         </button>
       </div>

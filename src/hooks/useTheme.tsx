@@ -1,4 +1,5 @@
 import { createContext, type ReactNode, useContext, useEffect, useState } from 'react'
+import { getStorage } from '../lib/storage'
 import { applyTheme, loadThemePref, resolveTheme, saveThemePref, type ThemePref } from '../lib/theme'
 
 interface ThemeApi {
@@ -14,7 +15,7 @@ function prefersDark(): boolean {
 }
 
 export function ThemeProvider({ children }: { children: ReactNode }) {
-  const [pref, setPrefState] = useState<ThemePref>(() => loadThemePref(localStorage))
+  const [pref, setPrefState] = useState<ThemePref>(() => loadThemePref(getStorage()))
 
   useEffect(() => {
     applyTheme(resolveTheme(pref, prefersDark()))
@@ -26,7 +27,7 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
   }, [pref])
 
   const setPref = (next: ThemePref) => {
-    saveThemePref(localStorage, next)
+    saveThemePref(getStorage(), next)
     setPrefState(next)
   }
 

@@ -25,7 +25,7 @@ export function ChartsPage() {
       <PageTitle>Charts</PageTitle>
       <MonthPicker value={month} onChange={setMonth} />
 
-      <QueryState isLoading={transactions.isLoading} isError={transactions.isError} onRetry={() => transactions.refetch()} rows={4}>
+      <QueryState isLoading={transactions.isLoading} isError={transactions.isError} hasData={transactions.data !== undefined} onRetry={() => transactions.refetch()} rows={4}>
         <div className="grid gap-4 lg:grid-cols-2">
           <section className={card} aria-labelledby="donut-title">
             <h2 id="donut-title" className="mb-4 font-semibold">Expense by category · {formatMonthLabel(month)}</h2>

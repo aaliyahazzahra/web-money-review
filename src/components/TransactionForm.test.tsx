@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react'
+import { fireEvent, render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { useState } from 'react'
 import type { Category } from '../types'
@@ -125,5 +125,41 @@ describe('TransactionForm', () => {
     render(<TransactionForm categories={categories} onSubmit={vi.fn()} initial={initial} onDelete={vi.fn()} />)
     expect(screen.getByRole('button', { name: 'Delete' })).toBeInTheDocument()
     expect(screen.getByLabelText('Amount')).toHaveValue('5.000')
+  })
+
+  it('uses the new day when the page stays open past midnight and the date was not changed', async () => {
+    vi.useFakeTimers({ toFake: ['Date'] })
+    try {
+      vi.setSystemTime(new Date(2026, 8, 30, 23, 50))
+      const onSubmit = vi.fn().mockResolvedValue(undefined)
+      render(<TransactionForm categories={categories} onSubmit={onSubmit} />)
+      expect(screen.getByLabelText('Date')).toHaveValue('2026-09-30')
+      vi.setSystemTime(new Date(2026, 9, 1, 7, 15))
+      await userEvent.type(screen.getByLabelText('Amount'), '15000')
+      await userEvent.click(screen.getByRole('button', { name: 'Food' }))
+      await userEvent.click(screen.getByRole('button', { name: 'Save' }))
+      expect(onSubmit).toHaveBeenCalledWith(expect.objectContaining({ date: '2026-10-01' }))
+      expect(screen.getByLabelText('Date')).toHaveValue('2026-10-01')
+    } finally {
+      vi.useRealTimers()
+    }
+  })
+
+  it('keeps a date the user picked', async () => {
+    const onSubmit = vi.fn().mockResolvedValue(undefined)
+    render(<TransactionForm categories={categories} onSubmit={onSubmit} />)
+    fireEvent.change(screen.getByLabelText('Date'), { target: { value: '2026-09-01' } })
+    await userEvent.type(screen.getByLabelText('Amount'), '15000')
+    await userEvent.click(screen.getByRole('button', { name: 'Food' }))
+    await userEvent.click(screen.getByRole('button', { name: 'Save' }))
+    expect(onSubmit).toHaveBeenCalledWith(expect.objectContaining({ date: '2026-09-01' }))
+  })
+
+  it('shows a loading state on Save while saving', async () => {
+    render(<TransactionForm categories={categories} onSubmit={() => new Promise<void>(() => {})} />)
+    await userEvent.type(screen.getByLabelText('Amount'), '25000')
+    await userEvent.click(screen.getByRole('button', { name: 'Food' }))
+    await userEvent.click(screen.getByRole('button', { name: 'Save' }))
+    expect(screen.getByRole('button', { name: 'Save' })).toHaveAttribute('aria-busy', 'true')
   })
 })

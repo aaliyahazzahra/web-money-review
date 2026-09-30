@@ -1,3 +1,5 @@
+import { clearActivity, markActive } from '../lib/inactivity'
+import { getStorage } from '../lib/storage'
 import { InvalidCredentialsError, throwIfError } from './errors'
 import { supabase } from './supabase'
 
@@ -10,6 +12,8 @@ function throwAuthError(error: { status?: number; message: string } | null): voi
 export async function signIn(email: string, password: string): Promise<void> {
   const { error } = await supabase.auth.signInWithPassword({ email: email.trim(), password })
   throwAuthError(error)
+  // Catatan aktivitas lama (mis. sebelum logout minggu lalu) tidak boleh langsung memicu logout otomatis.
+  markActive(getStorage(), Date.now())
   // Log login hanya pelengkap: kegagalannya tidak boleh menggagalkan login.
   try {
     await supabase.rpc('fn_log_activity', { p_activity: 'login' })
@@ -19,7 +23,9 @@ export async function signIn(email: string, password: string): Promise<void> {
 }
 
 export async function signOut(): Promise<void> {
-  const { error } = await supabase.auth.signOut()
+  // scope 'local': hanya perangkat ini; sesi di HP/laptop lain tetap berjalan.
+  const { error } = await supabase.auth.signOut({ scope: 'local' })
+  clearActivity(getStorage())
   throwIfError(error)
 }
 
