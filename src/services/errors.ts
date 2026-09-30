@@ -5,6 +5,13 @@ export class InvalidCredentialsError extends Error {
   }
 }
 
+export class EmailNotConfirmedError extends Error {
+  constructor() {
+    super('Email not confirmed')
+    this.name = 'EmailNotConfirmedError'
+  }
+}
+
 export class DuplicateCategoryError extends Error {
   constructor() {
     super('Category already exists')

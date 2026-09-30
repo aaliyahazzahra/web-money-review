@@ -3,7 +3,6 @@ import { type FormEvent, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router'
 import { fieldError, input, label, primaryButton } from '../components/ui'
 import { signIn } from '../services/auth'
-import { InvalidCredentialsError } from '../services/errors'
 
 export function LoginPage() {
   const navigate = useNavigate()
@@ -23,7 +22,8 @@ export function LoginPage() {
       await signIn(email, password)
       navigate('/', { replace: true })
     } catch (err) {
-      setError(err instanceof InvalidCredentialsError ? err.message : 'Failed to log in, try again')
+      // Tampilkan alasan asli dari Supabase (mis. "Email not confirmed") agar mudah didiagnosis.
+      setError(err instanceof Error && err.message ? err.message : 'Failed to log in, try again')
       setSubmitting(false)
     }
   }
