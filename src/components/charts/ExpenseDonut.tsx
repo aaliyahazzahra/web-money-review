@@ -24,7 +24,7 @@ export function ExpenseDonut({ data, colors }: ExpenseDonutProps) {
   const total = rows.reduce((sum, r) => sum + r.total, 0)
 
   return (
-    <div className="flex flex-col items-center gap-5 sm:flex-row sm:items-start">
+    <div className="flex flex-col items-center gap-5">
       <div className="relative h-52 w-52 shrink-0">
         <Doughnut
           data={{
@@ -51,7 +51,7 @@ export function ExpenseDonut({ data, colors }: ExpenseDonutProps) {
           <span className="num text-sm font-bold">{formatRupiah(total)}</span>
         </div>
       </div>
-      <ul aria-label="Expense by category" className="w-full space-y-1.5">
+      <ul aria-label="Expense by category" className="w-full max-w-md space-y-1.5">
         {rows.map((r, i) => (
           <li key={r.categoryId} className="flex items-center gap-2 text-sm">
             <span className="h-3 w-3 shrink-0 rounded-sm" style={{ backgroundColor: fills[i] }} aria-hidden />
