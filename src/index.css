@@ -18,18 +18,19 @@
 }
 
 :root[data-theme="dark"] {
-  --bg: #000000;
-  --surface: #1a0a0a;
+  /* Arang kemerahan: kartu (surface) lebih terang dari latar; kolom input memakai --bg sehingga tampak tertanam di kartu. */
+  --bg: #1a1012;
+  --surface: #2a1a1e;
   --text: #fff9f2;
-  --text-muted: #b8a9a0;
+  --text-muted: #c9bab3;
   --primary: #bc0202;
   --primary-pressed: #830000;
   --on-primary: #fff9f2;
   --accent: #ff0000;
   --expense: #ff4d4d;
   --income: #5fb57f;
-  --border: rgb(255 249 242 / 0.12);
-  --chart-grid: rgb(255 249 242 / 0.1);
+  --border: rgb(255 249 242 / 0.16);
+  --chart-grid: rgb(255 249 242 / 0.12);
   color-scheme: dark;
 }
 
