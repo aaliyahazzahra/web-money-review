@@ -56,10 +56,10 @@ Mode **System** (default) mengikuti setelan perangkat. **Light** dan **Dark** bi
 
 | Token | Light (palet 1) | Dark (palet 2) |
 |---|---|---|
-| `bg` | `#FFF9F2` | `#000000` |
-| `surface` | `#F3E6D5` | `#1A0A0A` |
+| `bg` | `#FFF9F2` | `#1A1012` |
+| `surface` | `#F3E6D5` | `#2A1A1E` |
 | `text` | `#2A0A10` | `#FFF9F2` |
-| `text-muted` | `#6B4A4F` | `#B8A9A0` |
+| `text-muted` | `#6B4A4F` | `#C9BAB3` |
 | `primary` | `#800020` | `#BC0202` |
 | `primary-pressed` | `#5E0018` | `#830000` |
 | `accent` | `#D45060` | `#FF0000` (sorotan kecil saja) |
