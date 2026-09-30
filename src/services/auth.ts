@@ -1,11 +1,12 @@
 import { clearActivity, markActive } from '../lib/inactivity'
 import { getStorage } from '../lib/storage'
-import { InvalidCredentialsError, throwIfError } from './errors'
+import { EmailNotConfirmedError, InvalidCredentialsError, throwIfError } from './errors'
 import { supabase } from './supabase'
 
-function throwAuthError(error: { status?: number; message: string } | null): void {
+function throwAuthError(error: { status?: number; code?: string; message: string } | null): void {
   if (!error) return
-  if (error.status === 400) throw new InvalidCredentialsError()
+  if (error.code === 'invalid_credentials') throw new InvalidCredentialsError()
+  if (error.code === 'email_not_confirmed') throw new EmailNotConfirmedError()
   throw new Error(error.message)
 }
 
