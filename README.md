@@ -4,7 +4,7 @@ Frontend **Money Review**, web pribadi untuk merekap pemasukan dan pengeluaran. 
 
 ## Web Url / App Build
 
-- **URL (Production):** `https://<nama-site>.netlify.app` (diisi setelah deploy pertama di Netlify)
+- **URL (Production):** https://librasica.netlify.app
 - **URL (Staging):** tidak ada (opsional: deploy preview Netlify dari branch `develop`)
 
 ## Tujuan
