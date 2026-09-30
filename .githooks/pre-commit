@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+
+RED='\033[1;31m'
+GREEN='\033[1;32m'
+YELLOW='\033[1;33m'
+CYAN='\033[1;36m'
+BOLD='\033[1m'
+NC='\033[0m' #No color
+
+branch=$(git branch --show-current)
+
+if [ "$branch" = "main" ] || [ "$branch" = "develop" ]; then
+    echo
+    echo -e "${RED}${BOLD}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
+    echo -e "${RED}${BOLD}❌ COMMIT DITOLAK${NC}"
+    echo -e "${YELLOW}Branch saat ini : ${CYAN}${branch}${NC}"
+    echo -e "${YELLOW}Alasan          : Dilarang melakukan commit langsung ke branch ${CYAN}main${YELLOW} atau ${CYAN}develop.${YELLOW}${NC}"
+    echo
+    echo -e "${GREEN}✔ Buat temporary branch untuk pengembangan:${NC}"
+    echo -e "  ${CYAN}git switch develop${NC}"
+    echo -e "  ${CYAN}git switch -c <tipe>/<issue>-<subtask>-<deskripsi>${NC}"
+    echo -e "${RED}${BOLD}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
+    echo
+    exit 1
+fi
+
+exit 0
