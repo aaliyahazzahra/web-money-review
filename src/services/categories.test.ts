@@ -6,7 +6,9 @@ vi.mock('./supabase', () => ({ supabase: fake.client }))
 
 const { createCategory, listCategories } = await import('./categories')
 
-beforeEach(() => { fake.calls.length = 0 })
+beforeEach(() => {
+  fake.calls.length = 0
+})
 
 describe('categories service', () => {
   it('assigns the next chart color from the total category count', async () => {
