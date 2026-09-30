@@ -5,7 +5,9 @@ vi.mock('./supabase', () => ({ supabase: fake.client }))
 
 const { deleteTransaction, listTransactions, createTransaction } = await import('./transactions')
 
-beforeEach(() => { fake.calls.length = 0 })
+beforeEach(() => {
+  fake.calls.length = 0
+})
 
 describe('transactions service', () => {
   it('soft-deletes by setting deleted_at and never calls delete', async () => {
