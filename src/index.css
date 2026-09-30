@@ -1,0 +1,61 @@
+@import "tailwindcss";
+
+/* Token warna: light = palet 1 (burgundy + krem), dark = palet 2 (hitam + merah). */
+:root {
+  --bg: #fff9f2;
+  --surface: #f3e6d5;
+  --text: #2a0a10;
+  --text-muted: #6b4a4f;
+  --primary: #800020;
+  --primary-pressed: #5e0018;
+  --on-primary: #fff9f2;
+  --accent: #d45060;
+  --expense: #800020;
+  --income: #3f7d58;
+  --border: rgb(42 10 16 / 0.12);
+  --chart-grid: rgb(42 10 16 / 0.1);
+  color-scheme: light;
+}
+
+:root[data-theme="dark"] {
+  --bg: #000000;
+  --surface: #1a0a0a;
+  --text: #fff9f2;
+  --text-muted: #b8a9a0;
+  --primary: #bc0202;
+  --primary-pressed: #830000;
+  --on-primary: #fff9f2;
+  --accent: #ff0000;
+  --expense: #ff4d4d;
+  --income: #5fb57f;
+  --border: rgb(255 249 242 / 0.12);
+  --chart-grid: rgb(255 249 242 / 0.1);
+  color-scheme: dark;
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-text: var(--text);
+  --color-muted: var(--text-muted);
+  --color-primary: var(--primary);
+  --color-primary-pressed: var(--primary-pressed);
+  --color-on-primary: var(--on-primary);
+  --color-accent: var(--accent);
+  --color-expense: var(--expense);
+  --color-income: var(--income);
+  --color-border: var(--border);
+  --font-sans: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-sans);
+  -webkit-tap-highlight-color: transparent;
+}
+
+.num {
+  font-variant-numeric: tabular-nums;
+}

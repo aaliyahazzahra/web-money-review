@@ -1,0 +1,27 @@
+# Dependencies
+node_modules/
+
+# Testing
+coverage/
+
+# Auto-generated
+node_modules/.tmp/
+*.tsbuildinfo
+.superpowers/
+
+# Production build
+dist/
+
+# Logs
+*.log
+npm-debug.log*
+
+# Environment variables (termasuk .env.example, sesuai SOP)
+.env
+.env.*
+
+# Editor / OS
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
