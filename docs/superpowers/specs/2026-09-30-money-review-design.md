@@ -1,7 +1,7 @@
 # Money Review — Design Spec
 
 - **Tanggal:** 2026-09-30
-- **Status:** Draft, menunggu review
+- **Status:** Disetujui 2026-09-30 (revisi palet kategori di §5.6)
 - **Repo:** `web-money-review` (frontend) dan `api-money-review` (skema & logika database Supabase)
 
 ## 1. Tujuan
@@ -99,7 +99,7 @@ Navigasi:
 | **Login** | Email + password, tombol "Log in". Tidak ada tautan daftar. |
 | **Home** | Kartu ringkasan bulan berjalan: Income, Expense, Net (= income − expense). Di bawahnya form input cepat, lalu 5 transaksi terakhir. |
 | **Transactions** | Filter bulan (default bulan berjalan) dan kategori (default semua). Daftar dikelompokkan per tanggal, terbaru di atas. Ketuk item untuk membuka form edit (form yang sama dengan input) beserta tombol Delete. Delete selalu meminta konfirmasi. |
-| **Charts** | Pemilih bulan. Donut pengeluaran per kategori untuk bulan terpilih, dengan legenda nominal dan persentase. Grafik batang income vs expense selama 6 bulan terakhir (sampai bulan terpilih). Dioptimalkan untuk laptop, tetap bisa dibuka di HP. |
+| **Charts** | Pemilih bulan. Donut pengeluaran per kategori untuk bulan terpilih (maks. 7 irisan, sisanya digabung menjadi "Other"), dengan legenda nominal dan persentase di bawahnya. Grafik batang income vs expense selama 6 bulan terakhir (sampai bulan terpilih). Dioptimalkan untuk laptop, tetap bisa dibuka di HP. |
 | **Settings** | Kelola kategori, tema (System / Light / Dark), ganti password, Log out. |
 
 ### 5.3 Form transaksi
@@ -123,7 +123,7 @@ Navigasi:
 
 - Dua daftar: Expense dan Income.
 - **Tambah / ubah:** nama (wajib, maks 50 karakter, unik per jenis di antara kategori aktif) dan ikon (pilih dari kumpulan ikon Lucide yang sudah dikurasi).
-- **Warna grafik** diberikan otomatis dari palet kategori (§5.6), berputar sesuai urutan pembuatan.
+- **Warna grafik** diberikan otomatis dari palet kategori (§5.6): warna yang paling jarang dipakai kategori aktif sejenis.
 - **Hapus** = arsip (soft delete, `deleted_at` diisi):
   - Kategori hilang dari form input.
   - Transaksi lama tetap menampilkan nama dan ikon kategori tersebut dan tetap dihitung di grafik.
@@ -158,7 +158,13 @@ Mode **System** (default) mengikuti `prefers-color-scheme`. **Light** dan **Dark
 | `income` | `#3F7D58` | `#5FB57F` |
 
 - Nominal pengeluaran selalu diawali `−` dan ikon `arrow-down`. Nominal pemasukan diawali `+` dan ikon `arrow-up`.
-- **Palet warna kategori** (untuk grafik, tanpa merah supaya tidak tertukar dengan expense): `#3F7D58`, `#2F6B9A`, `#C58B1A`, `#6A4C93`, `#1F8A8A`, `#8A6A4F`, `#5A7D2A`, `#B5651D`, `#4A5A8C`, `#7A7A7A`.
+- **Palet warna kategori** (untuk grafik, tanpa merah supaya tidak tertukar dengan expense), 7 hue yang lolos validasi buta warna dan normal-vision di permukaan light dan dark. Database menyimpan nilai light; mode dark memakai step pasangannya:
+
+  | Light | `#2a78d6` | `#eb6834` | `#1baf7a` | `#eda100` | `#e87ba4` | `#008300` | `#4a3aa7` |
+  |---|---|---|---|---|---|---|---|
+  | Dark | `#3987e5` | `#d95926` | `#199e70` | `#c98500` | `#d55181` | `#008300` | `#9085e9` |
+
+  *Revisi 2026-09-30:* palet 10 warna di draft awal gagal validasi (pasangan warna tertentu tidak terbedakan bagi penderita buta warna), sehingga diganti dengan palet di atas. Irisan "Other" memakai abu-abu `#8c8a86`.
 - **Huruf:** Plus Jakarta Sans (Google Fonts). Nominal memakai `tabular-nums`.
 - Format uang: `Rp 25.000` (`Intl.NumberFormat('id-ID')`, tanpa desimal). Format tanggal di UI memakai locale `en-GB` (mis. `30 Sep 2026`).
 
