@@ -56,8 +56,8 @@ describe('collapseCategories', () => {
   it('keeps the top N and folds the rest into Other', () => {
     const rows = [5, 4, 3, 2, 1].map((t, i) => ({ categoryId: i + 1, name: `C${i + 1}`, color: '#000', total: t * 10, percent: t * 10 / 1.5 }))
     const collapsed = collapseCategories(rows, 3)
-    expect(collapsed.map((r) => r.name)).toEqual(['C1', 'C2', 'Other'])
-    expect(collapsed[2]).toEqual({ categoryId: -1, name: 'Other', color: OTHER_COLOR, total: 60, percent: 40 })
+    expect(collapsed.map((r) => r.name)).toEqual(['C1', 'C2', 'Other categories'])
+    expect(collapsed[2]).toEqual({ categoryId: -1, name: 'Other categories', color: OTHER_COLOR, total: 60, percent: 40 })
     expect(collapseCategories(rows.slice(0, 3), 3).map((r) => r.name)).toEqual(['C1', 'C2', 'C3'])
   })
 })

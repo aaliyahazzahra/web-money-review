@@ -34,12 +34,12 @@ export function HomePage() {
     <div className="space-y-6">
       <PageTitle>{formatMonthLabel(month)}</PageTitle>
 
-      <QueryState isLoading={monthTx.isLoading} isError={monthTx.isError} onRetry={() => monthTx.refetch()} rows={1}>
+      <QueryState isLoading={monthTx.isLoading} isError={monthTx.isError} hasData={monthTx.data !== undefined} onRetry={() => monthTx.refetch()} rows={1}>
         <SummaryCards {...monthlySummary(monthTx.data ?? [])} />
       </QueryState>
 
       <section className={card} aria-label="Add transaction">
-        <QueryState isLoading={categories.isLoading} isError={categories.isError} onRetry={() => categories.refetch()}>
+        <QueryState isLoading={categories.isLoading} isError={categories.isError} hasData={categories.data !== undefined} onRetry={() => categories.refetch()}>
           <TransactionForm categories={categories.data ?? []} onSubmit={handleSubmit} />
         </QueryState>
       </section>
@@ -49,7 +49,7 @@ export function HomePage() {
           <h2 className="text-lg font-semibold">Recent</h2>
           <Link to="/transactions" className="text-sm font-medium text-primary">See all</Link>
         </div>
-        <QueryState isLoading={recent.isLoading} isError={recent.isError} onRetry={() => recent.refetch()}>
+        <QueryState isLoading={recent.isLoading} isError={recent.isError} hasData={recent.data !== undefined} onRetry={() => recent.refetch()}>
           <TransactionList transactions={recent.data ?? []} />
         </QueryState>
       </section>

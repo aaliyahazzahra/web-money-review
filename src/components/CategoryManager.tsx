@@ -89,7 +89,7 @@ export function CategoryManager() {
   }
 
   return (
-    <QueryState isLoading={categories.isLoading} isError={categories.isError} onRetry={() => categories.refetch()}>
+    <QueryState isLoading={categories.isLoading} isError={categories.isError} hasData={categories.data !== undefined} onRetry={() => categories.refetch()}>
       <div className="space-y-5">
         {SECTIONS.map(({ type, title }) => {
           const items = (categories.data ?? []).filter((c) => c.type === type && !c.archived)

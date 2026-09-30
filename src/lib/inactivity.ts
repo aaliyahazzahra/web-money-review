@@ -22,3 +22,16 @@ export function recordActivity(storage: KeyValueStorage, now: number): void {
 export function isInactive(last: number | null, now: number): boolean {
   return last !== null && now - last > INACTIVITY_LIMIT_MS
 }
+
+/** Tandai aktif sekarang tanpa throttle (dipakai tepat setelah login). */
+export function markActive(storage: KeyValueStorage, now: number): void {
+  safeSet(storage, KEY, String(now))
+}
+
+export function clearActivity(storage: Pick<Storage, 'removeItem'>): void {
+  try {
+    storage.removeItem(KEY)
+  } catch {
+    // diabaikan
+  }
+}

@@ -70,7 +70,7 @@ export function TransactionsPage() {
         </select>
       </div>
 
-      <QueryState isLoading={transactions.isLoading} isError={transactions.isError} onRetry={() => transactions.refetch()} rows={5}>
+      <QueryState isLoading={transactions.isLoading} isError={transactions.isError} hasData={transactions.data !== undefined} onRetry={() => transactions.refetch()} rows={5}>
         <TransactionList transactions={transactions.data ?? []} grouped onSelect={setEditing} />
       </QueryState>
 
