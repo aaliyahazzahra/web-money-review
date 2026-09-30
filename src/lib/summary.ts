@@ -72,3 +72,18 @@ export function groupByDate(txs: Transaction[]): DateGroup[] {
     .sort(([a], [b]) => (a < b ? 1 : a > b ? -1 : 0))
     .map(([date, items]) => ({ date, items }))
 }
+
+/** Abu-abu netral untuk irisan "Other" (bukan warna kategori). */
+export const OTHER_COLOR = '#8c8a86'
+
+/** Simpan `max - 1` kategori teratas, sisanya digabung menjadi "Other". */
+export function collapseCategories(rows: CategoryTotal[], max: number): CategoryTotal[] {
+  if (rows.length <= max) return rows
+  const grand = rows.reduce((sum, r) => sum + r.total, 0)
+  const kept = rows.slice(0, max - 1)
+  const otherTotal = grand - kept.reduce((sum, r) => sum + r.total, 0)
+  return [
+    ...kept,
+    { categoryId: -1, name: 'Other', color: OTHER_COLOR, total: otherTotal, percent: Math.round((otherTotal / grand) * 1000) / 10 },
+  ]
+}

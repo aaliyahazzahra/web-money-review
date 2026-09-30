@@ -42,8 +42,24 @@ export function getCategoryIcon(name: string): LucideIcon {
   return CATEGORY_ICONS[name] ?? CircleEllipsis
 }
 
-/** Warna grafik kategori (tanpa merah supaya tidak tertukar dengan expense). */
-export const CATEGORY_COLORS = [
-  '#3F7D58', '#2F6B9A', '#C58B1A', '#6A4C93', '#1F8A8A',
-  '#8A6A4F', '#5A7D2A', '#B5651D', '#4A5A8C', '#7A7A7A',
-]
+/**
+ * Warna grafik kategori: 7 hue tervalidasi (CVD & normal-vision) untuk permukaan light/dark,
+ * tanpa merah supaya tidak tertukar dengan expense. Database menyimpan nilai light.
+ */
+export const CATEGORY_COLORS = ['#2a78d6', '#eb6834', '#1baf7a', '#eda100', '#e87ba4', '#008300', '#4a3aa7']
+
+const DARK_STEPS: Record<string, string> = {
+  '#2a78d6': '#3987e5',
+  '#eb6834': '#d95926',
+  '#1baf7a': '#199e70',
+  '#eda100': '#c98500',
+  '#e87ba4': '#d55181',
+  '#008300': '#008300',
+  '#4a3aa7': '#9085e9',
+}
+
+/** Warna kategori sesuai tema; warna di luar palet dikembalikan apa adanya. */
+export function categoryColorFor(color: string, theme: 'light' | 'dark'): string {
+  if (theme === 'light') return color
+  return DARK_STEPS[color.toLowerCase()] ?? color
+}
