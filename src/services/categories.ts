@@ -36,12 +36,20 @@ export async function listCategories(): Promise<Category[]> {
   }))
 }
 
+/** Warna yang paling jarang dipakai kategori aktif sejenis; seri berurutan sesuai palet. */
+function pickColor(used: string[]): string {
+  const counts = CATEGORY_COLORS.map((c) => used.filter((u) => u.toLowerCase() === c).length)
+  return CATEGORY_COLORS[counts.indexOf(Math.min(...counts))]
+}
+
 export async function createCategory(c: { name: string; type: TransactionType; icon: string }): Promise<void> {
-  const { count, error: countError } = await supabase
+  const { data, error: usedError } = await supabase
     .from('tb_categories')
-    .select('id', { count: 'exact', head: true })
-  throwIfError(countError)
-  const color = CATEGORY_COLORS[(count ?? 0) % CATEGORY_COLORS.length]
+    .select('color')
+    .eq('type', c.type)
+    .is('deleted_at', null)
+  throwIfError(usedError)
+  const color = pickColor(((data ?? []) as { color: string }[]).map((r) => r.color))
   const { error } = await supabase
     .from('tb_categories')
     .insert({ name: c.name.trim(), type: c.type, icon: c.icon, color })
