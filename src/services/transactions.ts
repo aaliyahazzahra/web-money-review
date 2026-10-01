@@ -57,6 +57,13 @@ export async function listTransactions(f: TransactionFilter): Promise<Transactio
   return ((data ?? []) as TransactionRow[]).map(toTransaction)
 }
 
+/** Jumlah saldo keseluruhan, lintas bulan — hanya ambil kolom yang dipakai untuk penjumlahan. */
+export async function listAllAmounts(): Promise<{ type: TransactionType; amount: number }[]> {
+  const { data, error } = await supabase.from('vw_transactions').select('type,amount')
+  throwIfError(error)
+  return ((data ?? []) as { type: TransactionType; amount: number }[]).map((r) => ({ type: r.type, amount: Number(r.amount) }))
+}
+
 export async function listRecentTransactions(limit = 5): Promise<Transaction[]> {
   const { data, error } = await supabase
     .from('vw_transactions')

@@ -4,18 +4,18 @@ import { formatRupiah, formatSignedRupiah } from '../lib/money'
 interface SummaryCardsProps {
   income: number
   expense: number
-  net: number
+  balance: number
 }
 
-export function SummaryCards({ income, expense, net }: SummaryCardsProps) {
+export function SummaryCards({ income, expense, balance }: SummaryCardsProps) {
   return (
     <div className="grid grid-cols-2 gap-2">
       <div className="col-span-2 rounded-2xl bg-primary p-4 text-on-primary">
         <p className="flex items-center gap-1.5 text-sm opacity-85">
-          <Scale size={16} aria-hidden /> Net
+          <Scale size={16} aria-hidden /> Balance
         </p>
         <p className="num mt-1 text-3xl font-bold">
-          {net < 0 ? formatSignedRupiah(-net, 'expense') : formatRupiah(net)}
+          {balance < 0 ? formatSignedRupiah(-balance, 'expense') : formatRupiah(balance)}
         </p>
       </div>
       <div className="rounded-2xl bg-surface p-3">

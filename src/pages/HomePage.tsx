@@ -7,7 +7,7 @@ import { TransactionForm } from '../components/TransactionForm'
 import { TransactionList } from '../components/TransactionList'
 import { card } from '../components/ui'
 import { useCategories } from '../hooks/useCategories'
-import { useRecentTransactions, useSaveTransaction, useTransactions } from '../hooks/useTransactions'
+import { useAllTimeBalance, useRecentTransactions, useSaveTransaction, useTransactions } from '../hooks/useTransactions'
 import { currentMonthKey, formatMonthLabel, monthRange } from '../lib/dates'
 import { monthlySummary } from '../lib/summary'
 import type { TransactionInput } from '../types'
@@ -15,10 +15,14 @@ import type { TransactionInput } from '../types'
 export function HomePage() {
   const month = currentMonthKey()
   const monthTx = useTransactions(monthRange(month))
+  const balance = useAllTimeBalance()
   const recent = useRecentTransactions()
   const categories = useCategories()
   const save = useSaveTransaction()
   const toast = useToast()
+
+  const { income, expense } = monthlySummary(monthTx.data ?? [])
+  const { net: balanceNet } = monthlySummary(balance.data ?? [])
 
   async function handleSubmit(input: TransactionInput) {
     try {
@@ -34,8 +38,17 @@ export function HomePage() {
     <div className="space-y-6">
       <PageTitle>{formatMonthLabel(month)}</PageTitle>
 
-      <QueryState isLoading={monthTx.isLoading} isError={monthTx.isError} hasData={monthTx.data !== undefined} onRetry={() => monthTx.refetch()} rows={1}>
-        <SummaryCards {...monthlySummary(monthTx.data ?? [])} />
+      <QueryState
+        isLoading={monthTx.isLoading || balance.isLoading}
+        isError={monthTx.isError || balance.isError}
+        hasData={monthTx.data !== undefined && balance.data !== undefined}
+        onRetry={() => {
+          monthTx.refetch()
+          balance.refetch()
+        }}
+        rows={1}
+      >
+        <SummaryCards income={income} expense={expense} balance={balanceNet} />
       </QueryState>
 
       <section className={card} aria-label="Add transaction">

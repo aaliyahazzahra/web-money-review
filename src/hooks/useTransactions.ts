@@ -2,6 +2,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import {
   createTransaction,
   deleteTransaction,
+  listAllAmounts,
   listRecentTransactions,
   listTransactions,
   type TransactionFilter,
@@ -13,6 +14,7 @@ export const transactionKeys = {
   all: ['transactions'] as const,
   list: (filter: TransactionFilter) => ['transactions', filter] as const,
   recent: ['transactions', 'recent'] as const,
+  balance: ['transactions', 'balance'] as const,
 }
 
 export function useTransactions(filter: TransactionFilter) {
@@ -21,6 +23,11 @@ export function useTransactions(filter: TransactionFilter) {
 
 export function useRecentTransactions() {
   return useQuery({ queryKey: transactionKeys.recent, queryFn: () => listRecentTransactions(5) })
+}
+
+/** Saldo keseluruhan (semua transaksi, lintas bulan) untuk kartu Balance di Home. */
+export function useAllTimeBalance() {
+  return useQuery({ queryKey: transactionKeys.balance, queryFn: listAllAmounts })
 }
 
 export function useSaveTransaction() {

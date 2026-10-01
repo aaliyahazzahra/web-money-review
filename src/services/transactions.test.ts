@@ -3,7 +3,7 @@ import { createFakeSupabase } from '../test/fakeSupabase'
 const fake = createFakeSupabase()
 vi.mock('./supabase', () => ({ supabase: fake.client }))
 
-const { deleteTransaction, listTransactions, createTransaction } = await import('./transactions')
+const { deleteTransaction, listTransactions, createTransaction, listAllAmounts } = await import('./transactions')
 
 beforeEach(() => {
   fake.calls.length = 0
@@ -35,6 +35,15 @@ describe('transactions service', () => {
       id: 1, type: 'expense', amount: 25000, categoryId: 3, date: '2026-09-30', note: null,
       categoryName: 'Old', categoryIcon: 'bus', categoryColor: '#2F6B9A', categoryArchived: true,
     }])
+  })
+
+  it('lists type and amount across all transactions, with no date filter', async () => {
+    fake.queue({ data: [{ type: 'income', amount: 25000 }, { type: 'expense', amount: 15000 }] })
+    const rows = await listAllAmounts()
+    expect(fake.find('from')?.args).toEqual(['vw_transactions'])
+    expect(fake.find('select')?.args).toEqual(['type,amount'])
+    expect(fake.methods()).not.toContain('gte')
+    expect(rows).toEqual([{ type: 'income', amount: 25000 }, { type: 'expense', amount: 15000 }])
   })
 
   it('throws when supabase returns an error', async () => {
