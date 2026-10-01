@@ -62,6 +62,7 @@ describe('LoginPage', () => {
   it('shows the app name', () => {
     renderLogin()
     expect(screen.getByRole('heading', { name: 'Librasica' })).toBeInTheDocument()
+    expect(document.querySelector('svg[data-logo="librasica"]')).toBeInTheDocument()
   })
 
   it('shows the expired-session message and no sign-up link', () => {

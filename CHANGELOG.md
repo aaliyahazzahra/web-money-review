@@ -7,6 +7,7 @@ Semua perubahan penting pada proyek ini akan didokumentasikan dalam file ini. Fo
 ### Changed
 
 - Nama tampilan aplikasi menjadi Librasica (judul tab, halaman login, sidebar). Nama repo, folder, dan package tetap `web-money-review`.
+- Logo baru Librasica (monogram L faceted dengan timbangan) di halaman login, sidebar, favicon, dan ikon layar utama HP (`apple-touch-icon.png`).
 
 ## [0.1.0] - 2026-09-30
 
