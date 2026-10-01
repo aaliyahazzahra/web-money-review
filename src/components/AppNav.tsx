@@ -1,5 +1,6 @@
-import { ChartPie, House, List, type LucideIcon, Settings, Wallet } from 'lucide-react'
+import { ChartPie, House, List, type LucideIcon, Settings } from 'lucide-react'
 import { NavLink } from 'react-router'
+import { AppLogo } from './AppLogo'
 
 const ITEMS: { to: string; label: string; icon: LucideIcon }[] = [
   { to: '/', label: 'Home', icon: House },
@@ -14,7 +15,7 @@ export function AppNav() {
       {/* Laptop: sidebar kiri */}
       <nav aria-label="Main" className="fixed inset-y-0 left-0 hidden w-56 flex-col gap-1 border-r border-border bg-surface p-4 md:flex">
         <div className="mb-6 flex items-center gap-2 px-2 text-lg font-bold">
-          <Wallet size={22} aria-hidden className="text-primary" /> Money Review
+          <AppLogo size={28} /> Librasica
         </div>
         {ITEMS.map(({ to, label, icon: Icon }) => (
           <NavLink

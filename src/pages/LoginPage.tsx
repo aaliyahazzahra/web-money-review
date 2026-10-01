@@ -1,6 +1,6 @@
-import { Wallet } from 'lucide-react'
 import { type FormEvent, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router'
+import { AppLogo } from '../components/AppLogo'
 import { fieldError, input, label, primaryButton } from '../components/ui'
 import { signIn } from '../services/auth'
 
@@ -32,10 +32,8 @@ export function LoginPage() {
     <main className="flex min-h-dvh items-center justify-center px-4">
       <form onSubmit={handleSubmit} className="w-full max-w-sm space-y-4">
         <div className="mb-8 flex flex-col items-center gap-3 text-center">
-          <span className="flex h-14 w-14 items-center justify-center rounded-2xl bg-primary text-on-primary">
-            <Wallet size={28} aria-hidden />
-          </span>
-          <h1 className="text-2xl font-bold">Money Review</h1>
+          <AppLogo size={56} />
+          <h1 className="text-2xl font-bold">Librasica</h1>
         </div>
 
         {expired && !error && (
