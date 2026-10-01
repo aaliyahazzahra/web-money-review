@@ -2,12 +2,13 @@
 
 Semua perubahan penting pada proyek ini akan didokumentasikan dalam file ini. Format penulisan didasarkan pada [SOP Manajemen Git dan Repositori](https://sos.nurulfikri.id/documentation/books/9/pages/15?shelf=3).
 
-## [Unreleased]
+## [0.1.1] - 2026-10-01
 
 ### Changed
 
 - Nama tampilan aplikasi menjadi Librasica (judul tab, halaman login, sidebar). Nama repo, folder, dan package tetap `web-money-review`.
 - Logo baru Librasica (monogram L faceted dengan timbangan) di halaman login, sidebar, favicon, dan ikon layar utama HP (`apple-touch-icon.png`).
+- README mencantumkan URL production https://librasica.netlify.app.
 
 ## [0.1.0] - 2026-09-30
 
