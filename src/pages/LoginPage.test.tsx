@@ -59,6 +59,11 @@ describe('LoginPage', () => {
     expect(screen.getByRole('button', { name: 'Log in' })).toBeDisabled()
   })
 
+  it('shows the app name', () => {
+    renderLogin()
+    expect(screen.getByRole('heading', { name: 'Librasica' })).toBeInTheDocument()
+  })
+
   it('shows the expired-session message and no sign-up link', () => {
     renderLogin({ expired: true })
     expect(screen.getByText('Session expired, please log in')).toBeInTheDocument()

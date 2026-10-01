@@ -14,7 +14,7 @@ export function AppNav() {
       {/* Laptop: sidebar kiri */}
       <nav aria-label="Main" className="fixed inset-y-0 left-0 hidden w-56 flex-col gap-1 border-r border-border bg-surface p-4 md:flex">
         <div className="mb-6 flex items-center gap-2 px-2 text-lg font-bold">
-          <Wallet size={22} aria-hidden className="text-primary" /> Money Review
+          <Wallet size={22} aria-hidden className="text-primary" /> Librasica
         </div>
         {ITEMS.map(({ to, label, icon: Icon }) => (
           <NavLink
