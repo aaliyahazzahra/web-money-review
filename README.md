@@ -1,6 +1,6 @@
 # web-money-review
 
-Frontend **Money Review**, web pribadi untuk merekap pemasukan dan pengeluaran. Tampilannya dioptimalkan untuk **input cepat dari HP**, sedangkan grafik ada di halaman terpisah untuk ditinjau dari **laptop**. Data tersimpan di Supabase (lihat repo [`api-money-review`](../api-money-review)) sehingga sama di semua perangkat.
+Frontend **Librasica** (nama repo: `web-money-review`), web pribadi untuk merekap pemasukan dan pengeluaran. Tampilannya dioptimalkan untuk **input cepat dari HP**, sedangkan grafik ada di halaman terpisah untuk ditinjau dari **laptop**. Data tersimpan di Supabase (lihat repo [`api-money-review`](../api-money-review)) sehingga sama di semua perangkat.
 
 ## Web Url / App Build
 

@@ -35,7 +35,7 @@ export function LoginPage() {
           <span className="flex h-14 w-14 items-center justify-center rounded-2xl bg-primary text-on-primary">
             <Wallet size={28} aria-hidden />
           </span>
-          <h1 className="text-2xl font-bold">Money Review</h1>
+          <h1 className="text-2xl font-bold">Librasica</h1>
         </div>
 
         {expired && !error && (

@@ -2,6 +2,12 @@
 
 Semua perubahan penting pada proyek ini akan didokumentasikan dalam file ini. Format penulisan didasarkan pada [SOP Manajemen Git dan Repositori](https://sos.nurulfikri.id/documentation/books/9/pages/15?shelf=3).
 
+## [Unreleased]
+
+### Changed
+
+- Nama tampilan aplikasi menjadi Librasica (judul tab, halaman login, sidebar). Nama repo, folder, dan package tetap `web-money-review`.
+
 ## [0.1.0] - 2026-09-30
 
 ### Added

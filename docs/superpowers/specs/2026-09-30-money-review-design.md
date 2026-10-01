@@ -3,6 +3,7 @@
 - **Tanggal:** 2026-09-30
 - **Status:** Disetujui 2026-09-30 (revisi palet kategori di §5.6)
 - **Repo:** `web-money-review` (frontend) dan `api-money-review` (skema & logika database Supabase)
+- **Catatan 2026-10-01:** nama tampilan aplikasi menjadi **Librasica** (https://librasica.netlify.app). Nama repo dan folder tetap `web-money-review` / `api-money-review`.
 
 ## 1. Tujuan
 
