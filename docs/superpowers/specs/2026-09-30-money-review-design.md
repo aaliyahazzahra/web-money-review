@@ -98,7 +98,7 @@ Navigasi:
 | Halaman | Isi |
 |---|---|
 | **Login** | Email + password, tombol "Log in". Tidak ada tautan daftar. |
-| **Home** | Kartu ringkasan bulan berjalan: Income, Expense, Net (= income − expense). Di bawahnya form input cepat, lalu 5 transaksi terakhir. |
+| **Home** | Kartu **Balance** = saldo keseluruhan lintas bulan (total income − total expense dari semua transaksi), lalu Income dan Expense bulan berjalan. Di bawahnya form input cepat, lalu 5 transaksi terakhir. *(Revisi 2026-10-02: sebelumnya kartu Net hanya bulan berjalan, sehingga tampil minus bila pemasukan bulan lalu belum terpakai.)* |
 | **Transactions** | Filter bulan (default bulan berjalan) dan kategori (default semua). Daftar dikelompokkan per tanggal, terbaru di atas. Ketuk item untuk membuka form edit (form yang sama dengan input) beserta tombol Delete. Delete selalu meminta konfirmasi. |
 | **Charts** | Pemilih bulan. Donut pengeluaran per kategori untuk bulan terpilih (maks. 7 irisan, sisanya digabung menjadi "Other"), dengan legenda nominal dan persentase di bawahnya. Grafik batang income vs expense selama 6 bulan terakhir (sampai bulan terpilih). Dioptimalkan untuk laptop, tetap bisa dibuka di HP. |
 | **Settings** | Kelola kategori, tema (System / Light / Dark), ganti password, Log out. |
@@ -330,7 +330,7 @@ Nama kategori dalam bahasa Inggris karena tampil di antarmuka. Semua bisa diubah
 ## 7. Aliran data
 
 - **Baca:**
-  - Home membaca `vw_transactions` bulan berjalan untuk ringkasan, plus 5 transaksi terbaru tanpa filter bulan (urut `transaction_date desc, id desc`).
+  - Home membaca `vw_transactions` bulan berjalan untuk Income/Expense, `vw_balance` (repo api, `sql/007_balance_view.sql`) untuk Balance, plus 5 transaksi terbaru tanpa filter bulan (urut `transaction_date desc, id desc`). Balance dihitung di database karena PostgREST membatasi 1.000 baris per permintaan.
   - Transactions membaca `vw_transactions` dengan filter rentang tanggal bulan terpilih (dan kategori bila dipilih).
   - Charts membaca rentang 6 bulan.
   - Ringkasan dan agregasi grafik dihitung di browser (`lib/summary.ts`).

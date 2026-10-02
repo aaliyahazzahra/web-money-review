@@ -3,7 +3,7 @@ import { createFakeSupabase } from '../test/fakeSupabase'
 const fake = createFakeSupabase()
 vi.mock('./supabase', () => ({ supabase: fake.client }))
 
-const { deleteTransaction, listTransactions, createTransaction, listAllAmounts } = await import('./transactions')
+const { deleteTransaction, listTransactions, createTransaction, getBalance } = await import('./transactions')
 
 beforeEach(() => {
   fake.calls.length = 0
@@ -37,13 +37,17 @@ describe('transactions service', () => {
     }])
   })
 
-  it('lists type and amount across all transactions, with no date filter', async () => {
-    fake.queue({ data: [{ type: 'income', amount: 25000 }, { type: 'expense', amount: 15000 }] })
-    const rows = await listAllAmounts()
-    expect(fake.find('from')?.args).toEqual(['vw_transactions'])
-    expect(fake.find('select')?.args).toEqual(['type,amount'])
-    expect(fake.methods()).not.toContain('gte')
-    expect(rows).toEqual([{ type: 'income', amount: 25000 }, { type: 'expense', amount: 15000 }])
+  it('reads the all-time balance computed by the database', async () => {
+    fake.queue({ data: { balance: 1250000 } })
+    expect(await getBalance()).toBe(1250000)
+    expect(fake.find('from')?.args).toEqual(['vw_balance'])
+    expect(fake.find('select')?.args).toEqual(['balance'])
+    expect(fake.methods()).toContain('single')
+  })
+
+  it('returns a negative balance as a number', async () => {
+    fake.queue({ data: { balance: -5000 } })
+    expect(await getBalance()).toBe(-5000)
   })
 
   it('throws when supabase returns an error', async () => {

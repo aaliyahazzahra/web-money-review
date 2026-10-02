@@ -57,11 +57,14 @@ export async function listTransactions(f: TransactionFilter): Promise<Transactio
   return ((data ?? []) as TransactionRow[]).map(toTransaction)
 }
 
-/** Jumlah saldo keseluruhan, lintas bulan — hanya ambil kolom yang dipakai untuk penjumlahan. */
-export async function listAllAmounts(): Promise<{ type: TransactionType; amount: number }[]> {
-  const { data, error } = await supabase.from('vw_transactions').select('type,amount')
+/**
+ * Saldo keseluruhan lintas bulan (income − expense), dihitung database lewat vw_balance.
+ * Tidak dijumlahkan di browser karena PostgREST membatasi 1.000 baris per permintaan.
+ */
+export async function getBalance(): Promise<number> {
+  const { data, error } = await supabase.from('vw_balance').select('balance').single()
   throwIfError(error)
-  return ((data ?? []) as { type: TransactionType; amount: number }[]).map((r) => ({ type: r.type, amount: Number(r.amount) }))
+  return Number((data as { balance: number | string } | null)?.balance ?? 0)
 }
 
 export async function listRecentTransactions(limit = 5): Promise<Transaction[]> {

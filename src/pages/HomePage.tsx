@@ -22,7 +22,6 @@ export function HomePage() {
   const toast = useToast()
 
   const { income, expense } = monthlySummary(monthTx.data ?? [])
-  const { net: balanceNet } = monthlySummary(balance.data ?? [])
 
   async function handleSubmit(input: TransactionInput) {
     try {
@@ -48,7 +47,7 @@ export function HomePage() {
         }}
         rows={1}
       >
-        <SummaryCards income={income} expense={expense} balance={balanceNet} />
+        <SummaryCards income={income} expense={expense} balance={balance.data ?? 0} />
       </QueryState>
 
       <section className={card} aria-label="Add transaction">
