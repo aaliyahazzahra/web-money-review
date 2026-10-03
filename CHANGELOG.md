@@ -4,6 +4,10 @@ Semua perubahan penting pada proyek ini akan didokumentasikan dalam file ini. Fo
 
 ## [Unreleased]
 
+### Added
+
+- Nomor versi aplikasi (mis. `v0.3.0 · 8e0da4e`) di pojok kiri bawah sidebar laptop dan di bagian bawah halaman Settings, diambil otomatis dari `package.json` dan commit yang di-deploy Netlify.
+
 ### Changed
 
 - Kartu utama di Home menjadi **Balance**: saldo keseluruhan lintas bulan (uang yang sedang dipegang), menggantikan kartu Net yang hanya menghitung bulan berjalan. Income dan Expense tetap untuk bulan berjalan.
