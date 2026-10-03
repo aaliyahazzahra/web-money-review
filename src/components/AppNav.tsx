@@ -1,5 +1,6 @@
 import { ChartPie, House, List, type LucideIcon, Settings } from 'lucide-react'
 import { NavLink } from 'react-router'
+import { APP_VERSION_LABEL } from '../lib/version'
 import { AppLogo } from './AppLogo'
 
 const ITEMS: { to: string; label: string; icon: LucideIcon }[] = [
@@ -31,6 +32,7 @@ export function AppNav() {
             <Icon size={20} aria-hidden /> {label}
           </NavLink>
         ))}
+        <p className="mt-auto px-3 text-xs text-muted">{APP_VERSION_LABEL}</p>
       </nav>
 
       {/* HP: bilah bawah */}

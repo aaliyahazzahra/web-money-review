@@ -25,7 +25,7 @@ export interface DateGroup {
   items: Transaction[]
 }
 
-export function monthlySummary(txs: Transaction[]): MonthlySummary {
+export function monthlySummary(txs: Pick<Transaction, 'type' | 'amount'>[]): MonthlySummary {
   let income = 0
   let expense = 0
   for (const t of txs) {

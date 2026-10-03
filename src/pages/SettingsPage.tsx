@@ -8,6 +8,7 @@ import { useToast } from '../components/Toast'
 import { card, secondaryButton } from '../components/ui'
 import { useTheme } from '../hooks/useTheme'
 import type { ThemePref } from '../lib/theme'
+import { APP_VERSION_LABEL } from '../lib/version'
 import { signOut } from '../services/auth'
 
 const THEMES: { value: ThemePref; label: string; icon: typeof Sun }[] = [
@@ -70,6 +71,8 @@ export function SettingsPage() {
       <button type="button" className={`${secondaryButton} w-full`} onClick={handleSignOut} disabled={signingOut}>
         <LogOut size={18} aria-hidden /> Log out
       </button>
+
+      <p className="pt-2 text-center text-xs text-muted">Librasica {APP_VERSION_LABEL}</p>
     </div>
   )
 }

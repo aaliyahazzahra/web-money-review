@@ -2,6 +2,17 @@
 
 Semua perubahan penting pada proyek ini akan didokumentasikan dalam file ini. Format penulisan didasarkan pada [SOP Manajemen Git dan Repositori](https://sos.nurulfikri.id/documentation/books/9/pages/15?shelf=3).
 
+## [0.3.0] - 2026-10-03
+
+### Added
+
+- Nomor versi aplikasi (mis. `v0.3.0 · 8e0da4e`) di pojok kiri bawah sidebar laptop dan di bagian bawah halaman Settings, diambil otomatis dari `package.json` dan commit yang di-deploy Netlify.
+
+### Changed
+
+- Kartu utama di Home menjadi **Balance**: saldo keseluruhan lintas bulan (uang yang sedang dipegang), menggantikan kartu Net yang hanya menghitung bulan berjalan. Income dan Expense tetap untuk bulan berjalan.
+- Balance dibaca dari view `vw_balance` di database (butuh `sql/007_balance_view.sql` dari repo `api-money-review` dijalankan di Supabase), sehingga tetap akurat berapa pun jumlah transaksinya.
+
 ## [0.2.0] - 2026-10-01
 
 ### Changed

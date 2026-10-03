@@ -10,8 +10,9 @@ const salary: Transaction = { ...base, id: 2, type: 'income', amount: 1000000, c
 const archived: Transaction = { ...base, id: 3, type: 'expense', amount: 7000, categoryId: 9, date: '2026-09-30', categoryName: 'Old stuff', categoryArchived: true }
 
 describe('SummaryCards', () => {
-  it('shows income, expense and a negative net with minus sign', () => {
-    render(<SummaryCards income={10000} expense={15000} net={-5000} />)
+  it('shows income, expense and a negative balance with minus sign', () => {
+    render(<SummaryCards income={10000} expense={15000} balance={-5000} />)
+    expect(screen.getByText('Balance')).toBeInTheDocument()
     expect(screen.getByText('Income')).toBeInTheDocument()
     expect(screen.getByText('Rp 10.000')).toBeInTheDocument()
     expect(screen.getByText('Rp 15.000')).toBeInTheDocument()
