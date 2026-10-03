@@ -2,7 +2,7 @@
 
 Semua perubahan penting pada proyek ini akan didokumentasikan dalam file ini. Format penulisan didasarkan pada [SOP Manajemen Git dan Repositori](https://sos.nurulfikri.id/documentation/books/9/pages/15?shelf=3).
 
-## [Unreleased]
+## [0.3.0] - 2026-10-03
 
 ### Added
 
