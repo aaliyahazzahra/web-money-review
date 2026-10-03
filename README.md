@@ -28,7 +28,7 @@ Seluruh teks antarmuka berbahasa Inggris. Pesan notifikasi dibuat singkat, dan s
 | **Home** | Kartu **Balance** (saldo keseluruhan lintas bulan, yaitu uang yang sedang dipegang), kartu Income dan Expense bulan berjalan, form input cepat, dan 5 transaksi terbaru. |
 | **Transactions** | Filter bulan dan kategori (termasuk kategori terarsip), daftar per tanggal, edit, dan hapus dengan konfirmasi. |
 | **Charts** | Donut pengeluaran per kategori (maks. 7 irisan + "Other") dengan legenda nominal dan persentase, serta batang income vs expense 6 bulan. |
-| **Settings** | Kelola kategori (tambah, ubah nama/ikon, hapus = arsip), tema System/Light/Dark, ganti password, dan Log out. |
+| **Settings** | Kelola kategori (tambah, ubah nama/ikon, hapus = arsip), tema System/Light/Dark, ganti password, dan Log out. Di bagian bawah tercantum nomor versi aplikasi. |
 
 **Form transaksi:**
 
@@ -44,6 +44,11 @@ Seluruh teks antarmuka berbahasa Inggris. Pesan notifikasi dibuat singkat, dan s
 - Login bertahan walau browser ditutup.
 - Logout otomatis setelah **7 hari tidak dipakai** (dicatat di `localStorage` dengan key `mr:lastActivity`).
 - Ganti password memverifikasi password lama terlebih dahulu.
+
+**Nomor versi:**
+
+- Tampil di pojok kiri bawah sidebar (laptop) dan di bawah halaman Settings, misalnya `v0.3.0 · 8e0da4e`.
+- Nomor versi diambil dari `package.json`; kode di belakangnya adalah 7 karakter commit yang di-build Netlify (`COMMIT_REF`), sehingga production dan Deploy Preview bisa dibedakan. Saat `npm run dev` hanya nomor versinya yang tampil.
 
 **Navigasi:**
 
