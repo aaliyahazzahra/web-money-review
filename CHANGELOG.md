@@ -2,6 +2,17 @@
 
 Semua perubahan penting pada proyek ini akan didokumentasikan dalam file ini. Format penulisan didasarkan pada [SOP Manajemen Git dan Repositori](https://sos.nurulfikri.id/documentation/books/9/pages/15?shelf=3).
 
+## [Unreleased]
+
+### Added
+
+- Warna kategori bisa diubah dari Settings saat menambah atau mengubah kategori, lewat color picker dengan mode **Grid** (palet disarankan + grid ringkas 15 × 10) dan **Spectrum** (pilih bebas), serta kolom hex.
+
+### Changed
+
+- Warna ikon di kotak kategori otomatis putih atau gelap supaya tetap terbaca di warna latar yang terang.
+- Warna awal kategori baru dihitung di browser dari kategori yang sudah dimuat (sebelumnya query tambahan ke database).
+
 ## [0.3.0] - 2026-10-03
 
 ### Added

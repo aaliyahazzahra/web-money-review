@@ -1,16 +1,18 @@
 import { Pencil, Plus, Trash2 } from 'lucide-react'
 import { type FormEvent, useState } from 'react'
 import { useCategories, useCategoryMutations } from '../hooks/useCategories'
+import { iconColorOn, suggestCategoryColor } from '../lib/color'
 import { getCategoryIcon } from '../lib/icons'
 import { DuplicateCategoryError } from '../services/errors'
 import type { Category, TransactionType } from '../types'
+import { ColorPicker } from './ColorPicker'
 import { ConfirmDialog } from './ConfirmDialog'
 import { IconPicker } from './IconPicker'
 import { QueryState } from './QueryState'
 import { useToast } from './Toast'
 import { fieldError, iconButton, input, label, primaryButton, secondaryButton } from './ui'
 
-type Draft = { id?: number; type: TransactionType; name: string; icon: string }
+type Draft = { id?: number; type: TransactionType; name: string; icon: string; color: string }
 
 const SECTIONS: { type: TransactionType; title: string }[] = [
   { type: 'expense', title: 'Expense categories' },
@@ -20,6 +22,7 @@ const SECTIONS: { type: TransactionType; title: string }[] = [
 function CategoryEditor({ draft, onCancel, onSaved }: { draft: Draft; onCancel(): void; onSaved(): void }) {
   const [name, setName] = useState(draft.name)
   const [icon, setIcon] = useState(draft.icon)
+  const [color, setColor] = useState(draft.color)
   const [error, setError] = useState<string | null>(null)
   const [saving, setSaving] = useState(false)
   const { create, update } = useCategoryMutations()
@@ -35,8 +38,8 @@ function CategoryEditor({ draft, onCancel, onSaved }: { draft: Draft; onCancel()
     setError(null)
     setSaving(true)
     try {
-      if (draft.id === undefined) await create.mutateAsync({ name: name.trim(), type: draft.type, icon })
-      else await update.mutateAsync({ id: draft.id, name: name.trim(), icon })
+      if (draft.id === undefined) await create.mutateAsync({ name: name.trim(), type: draft.type, icon, color })
+      else await update.mutateAsync({ id: draft.id, name: name.trim(), icon, color })
       toast.show('Saved')
       onSaved()
     } catch (err) {
@@ -61,6 +64,7 @@ function CategoryEditor({ draft, onCancel, onSaved }: { draft: Draft; onCancel()
         {error && <p className={fieldError}>{error}</p>}
       </div>
       <IconPicker value={icon} onChange={setIcon} />
+      <ColorPicker value={color} onChange={setColor} />
       <div className="flex justify-end gap-2">
         <button type="button" className={secondaryButton} onClick={onCancel}>Cancel</button>
         <button type="submit" className={primaryButton} disabled={saving} aria-label="Save category">Save</button>
@@ -101,7 +105,7 @@ export function CategoryManager() {
                 <button
                   type="button"
                   className="inline-flex items-center gap-1 text-sm font-medium text-primary"
-                  onClick={() => setDraft({ type, name: '', icon: 'circle-ellipsis' })}
+                  onClick={() => setDraft({ type, name: '', icon: 'circle-ellipsis', color: suggestCategoryColor(items.map((c) => c.color)) })}
                 >
                   <Plus size={16} aria-hidden /> Add category
                 </button>
@@ -115,11 +119,11 @@ export function CategoryManager() {
                   return (
                     <li key={c.id} className="py-1.5">
                       <div className="flex items-center gap-3">
-                        <span className="flex h-9 w-9 items-center justify-center rounded-lg text-white" style={{ backgroundColor: c.color }}>
+                        <span className="flex h-9 w-9 items-center justify-center rounded-lg" style={{ backgroundColor: c.color, color: iconColorOn(c.color) }}>
                           <Icon size={18} aria-hidden />
                         </span>
                         <span className="flex-1 font-medium">{c.name}</span>
-                        <button type="button" className={iconButton} aria-label={`Edit ${c.name}`} onClick={() => setDraft({ id: c.id, type, name: c.name, icon: c.icon })}>
+                        <button type="button" className={iconButton} aria-label={`Edit ${c.name}`} onClick={() => setDraft({ id: c.id, type, name: c.name, icon: c.icon, color: c.color })}>
                           <Pencil size={18} aria-hidden />
                         </button>
                         <button type="button" className={iconButton} aria-label={`Delete ${c.name}`} onClick={() => setDeleting(c)}>
