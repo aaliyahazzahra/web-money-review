@@ -1,5 +1,6 @@
 import { ArrowDown, ArrowUp } from 'lucide-react'
 import { formatDisplayDate } from '../lib/dates'
+import { iconColorOn } from '../lib/color'
 import { getCategoryIcon } from '../lib/icons'
 import { formatSignedRupiah } from '../lib/money'
 import { groupByDate } from '../lib/summary'
@@ -18,8 +19,8 @@ function Row({ t, showDate, onSelect }: { t: Transaction; showDate: boolean; onS
   const content = (
     <>
       <span
-        className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl text-white"
-        style={{ backgroundColor: t.categoryColor }}
+        className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl"
+        style={{ backgroundColor: t.categoryColor, color: iconColorOn(t.categoryColor) }}
       >
         <Icon size={20} aria-hidden />
       </span>

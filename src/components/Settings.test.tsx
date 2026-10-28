@@ -70,7 +70,8 @@ describe('CategoryManager', () => {
     await userEvent.type(screen.getByLabelText('Name'), 'food')
     await userEvent.click(screen.getByRole('radio', { name: 'dog' }))
     await userEvent.click(screen.getByRole('button', { name: 'Save category' }))
-    expect(create).toHaveBeenCalledWith({ name: 'food', type: 'expense', icon: 'dog' })
+    // Warna awal = warna palet yang belum dipakai kategori aktif sejenis (Food memakai #2a78d6).
+    expect(create).toHaveBeenCalledWith({ name: 'food', type: 'expense', icon: 'dog', color: '#eb6834' })
     expect(await screen.findByText('Category already exists')).toBeInTheDocument()
   })
 
@@ -81,8 +82,52 @@ describe('CategoryManager', () => {
     await userEvent.clear(name)
     await userEvent.type(name, 'Meals')
     await userEvent.click(screen.getByRole('button', { name: 'Save category' }))
-    expect(update).toHaveBeenCalledWith({ id: 1, name: 'Meals', icon: 'utensils' })
+    expect(update).toHaveBeenCalledWith({ id: 1, name: 'Meals', icon: 'utensils', color: '#2a78d6' })
     expect(await screen.findByText('Saved')).toBeInTheDocument()
+  })
+
+  it('changes color from the grid', async () => {
+    renderWithToast(<CategoryManager />)
+    await userEvent.click(screen.getByRole('button', { name: 'Edit Food' }))
+    const grid = screen.getByRole('radiogroup', { name: 'Color grid' })
+    const swatch = within(grid).getAllByRole('radio')[20]
+    const picked = swatch.getAttribute('aria-label')!
+    await userEvent.click(swatch)
+    expect(swatch).toHaveAttribute('aria-checked', 'true')
+    expect(screen.getByLabelText('Hex color')).toHaveValue(picked)
+    await userEvent.click(screen.getByRole('button', { name: 'Save category' }))
+    expect(update).toHaveBeenCalledWith({ id: 1, name: 'Food', icon: 'utensils', color: picked })
+  })
+
+  it('accepts a typed hex color and ignores invalid input', async () => {
+    renderWithToast(<CategoryManager />)
+    await userEvent.click(screen.getByRole('button', { name: 'Edit Food' }))
+    const hex = screen.getByLabelText('Hex color')
+    await userEvent.clear(hex)
+    await userEvent.type(hex, 'zz')
+    await userEvent.tab()
+    expect(hex).toHaveValue('#2a78d6')
+    await userEvent.clear(hex)
+    await userEvent.type(hex, '#F0A')
+    await userEvent.tab()
+    expect(hex).toHaveValue('#ff00aa')
+    await userEvent.click(screen.getByRole('button', { name: 'Save category' }))
+    expect(update).toHaveBeenCalledWith({ id: 1, name: 'Food', icon: 'utensils', color: '#ff00aa' })
+  })
+
+  it('picks a color on the spectrum with the keyboard', async () => {
+    renderWithToast(<CategoryManager />)
+    await userEvent.click(screen.getByRole('button', { name: 'Edit Food' }))
+    await userEvent.click(screen.getByRole('tab', { name: 'Spectrum' }))
+    expect(within(screen.getByRole('radiogroup', { name: 'Suggested colors' })).getAllByRole('radio')).toHaveLength(7)
+    const spectrum = screen.getByRole('slider', { name: 'Color spectrum' })
+    spectrum.focus()
+    await userEvent.keyboard('{ArrowRight}')
+    const value = spectrum.getAttribute('aria-valuetext')
+    expect(value).toMatch(/^#[0-9a-f]{6}$/)
+    expect(value).not.toBe('#2a78d6')
+    await userEvent.click(screen.getByRole('button', { name: 'Save category' }))
+    expect(update).toHaveBeenCalledWith({ id: 1, name: 'Food', icon: 'utensils', color: value })
   })
 })
 
