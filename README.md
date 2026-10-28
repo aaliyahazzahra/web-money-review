@@ -28,7 +28,7 @@ Seluruh teks antarmuka berbahasa Inggris. Pesan notifikasi dibuat singkat, dan s
 | **Home** | Kartu **Balance** (saldo keseluruhan lintas bulan, yaitu uang yang sedang dipegang), kartu Income dan Expense bulan berjalan, form input cepat, dan 5 transaksi terbaru. |
 | **Transactions** | Filter bulan dan kategori (termasuk kategori terarsip), daftar per tanggal, edit, dan hapus dengan konfirmasi. |
 | **Charts** | Donut pengeluaran per kategori (maks. 7 irisan + "Other") dengan legenda nominal dan persentase, serta batang income vs expense 6 bulan. |
-| **Settings** | Kelola kategori (tambah, ubah nama/ikon, hapus = arsip), tema System/Light/Dark, ganti password, dan Log out. Di bagian bawah tercantum nomor versi aplikasi. |
+| **Settings** | Kelola kategori (tambah, ubah nama/ikon/warna, hapus = arsip), tema System/Light/Dark, ganti password, dan Log out. Di bagian bawah tercantum nomor versi aplikasi. |
 
 **Form transaksi:**
 
@@ -71,7 +71,14 @@ Mode **System** (default) mengikuti setelan perangkat. **Light** dan **Dark** bi
 | `expense` | `#800020` + tanda `−` dan ikon panah turun | `#FF4D4D` |
 | `income` | `#3F7D58` + tanda `+` dan ikon panah naik | `#5FB57F` |
 
-- **Palet kategori:** 7 hue yang lolos validasi buta warna, tanpa merah: `#2a78d6`, `#eb6834`, `#1baf7a`, `#eda100`, `#e87ba4`, `#008300`, `#4a3aa7`. Di mode dark masing-masing memakai step yang lebih terang. Kategori baru mendapat warna yang paling jarang dipakai kategori aktif sejenis.
+- **Palet kategori:** 7 hue yang lolos validasi buta warna, tanpa merah: `#2a78d6`, `#eb6834`, `#1baf7a`, `#eda100`, `#e87ba4`, `#008300`, `#4a3aa7`. Di mode dark masing-masing memakai step yang lebih terang. Kategori baru mendapat warna yang paling jarang dipakai kategori aktif sejenis sebagai warna awal.
+- **Warna kategori bebas:** saat menambah atau mengubah kategori, warna bisa dipilih lewat color picker dengan dua mode:
+  - **Palet disarankan:** 7 warna palet di atas, tampil di kedua mode.
+  - **Grid:** grid ringkas 15 × 10 berkotak 22 px, mengecil proporsional di layar sempit (baris abu-abu putih → hitam, lalu 15 hue × 9 tingkat terang). Bisa dipilih dengan panah keyboard.
+  - **Spectrum:** area spektrum bebas; kiri ke kanan = putih → warna murni → hitam, atas ke bawah = hue. Bisa diseret atau digeser dengan panah keyboard (Shift = langkah besar).
+  - Kolom hex untuk mengetik warna langsung (`#rrggbb` atau `#rgb`); input tidak valid dikembalikan ke warna sebelumnya.
+  - Warna ikon di atas kotak kategori otomatis putih atau gelap tergantung terang-gelapnya warna latar. Warna di luar palet tidak punya step dark mode, jadi ditampilkan apa adanya di kedua tema.
+  - Butuh `sql/008_category_color_check.sql` dari repo `api-money-review` (validasi format `#rrggbb` di database).
 - **Huruf:** Plus Jakarta Sans.
 - **Format:** uang `Rp 25.000`, tanggal `30 Sep 2026`.
 
@@ -124,6 +131,7 @@ web-money-review/
 │  │   ├─ inactivity.ts      ← aturan logout 7 hari
 │  │   ├─ theme.ts, storage.ts
 │  │   ├─ icons.ts           ← ikon kategori & palet warna
+│  │   ├─ color.ts           ← konversi hex/HSL, grid & spektrum color picker, warna ikon terbaca
 │  │   └─ chartTheme.ts      ← warna grafik dari tema aktif
 │  ├─ services/              ← supabase.ts, auth.ts, transactions.ts, categories.ts, errors.ts
 │  ├─ hooks/                 ← useTransactions, useCategories, useAuth, useTheme, useInactivityGuard
