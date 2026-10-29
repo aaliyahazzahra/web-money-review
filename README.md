@@ -25,7 +25,7 @@ Seluruh teks antarmuka berbahasa Inggris. Pesan notifikasi dibuat singkat, dan s
 | Halaman | Isi |
 |---|---|
 | **Login** | Email + password. Tidak ada pendaftaran; akun dibuat manual di Supabase. |
-| **Home** | Kartu **Balance** (saldo keseluruhan lintas bulan, yaitu uang yang sedang dipegang), kartu Income dan Expense bulan berjalan, form input cepat, dan 5 transaksi terbaru. |
+| **Home** | Kartu **Balance** (saldo keseluruhan lintas bulan, yaitu uang yang sedang dipegang), kartu Income dan Expense bulan berjalan, form input cepat, dan **Recent**: 5 transaksi yang terakhir diinput (urut `created_at`), sehingga transaksi tanggal lampau yang baru dilengkapi tetap muncul. |
 | **Transactions** | Filter bulan dan kategori (termasuk kategori terarsip), daftar per tanggal, edit, dan hapus dengan konfirmasi. |
 | **Charts** | Donut pengeluaran per kategori (maks. 7 irisan + "Other") dengan legenda nominal dan persentase, serta batang income vs expense 6 bulan. |
 | **Settings** | Kelola kategori (tambah, ubah nama/ikon/warna, hapus = arsip), tema System/Light/Dark, ganti password, dan Log out. Di bagian bawah tercantum nomor versi aplikasi. |
