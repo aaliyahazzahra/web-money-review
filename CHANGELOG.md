@@ -2,6 +2,12 @@
 
 Semua perubahan penting pada proyek ini akan didokumentasikan dalam file ini. Format penulisan didasarkan pada [SOP Manajemen Git dan Repositori](https://sos.nurulfikri.id/documentation/books/9/pages/15?shelf=3).
 
+## [Unreleased]
+
+### Changed
+
+- **Recent** di Home kini menampilkan 5 transaksi yang terakhir diinput (urut waktu input), bukan 5 transaksi dengan tanggal paling baru. Transaksi tanggal lampau yang baru dilengkapi langsung terlihat di Recent.
+
 ## [0.4.0] - 2026-10-28
 
 ### Added
