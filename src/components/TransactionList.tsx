@@ -10,6 +10,8 @@ interface TransactionListProps {
   transactions: Transaction[]
   grouped?: boolean
   onSelect?(t: Transaction): void
+  /** Pesan saat daftar kosong; default "No transactions yet". */
+  emptyMessage?: string
 }
 
 function Row({ t, showDate, onSelect }: { t: Transaction; showDate: boolean; onSelect?(t: Transaction): void }) {
@@ -52,9 +54,9 @@ function Row({ t, showDate, onSelect }: { t: Transaction; showDate: boolean; onS
   )
 }
 
-export function TransactionList({ transactions, grouped, onSelect }: TransactionListProps) {
+export function TransactionList({ transactions, grouped, onSelect, emptyMessage = 'No transactions yet' }: TransactionListProps) {
   if (transactions.length === 0) {
-    return <p className="py-6 text-center text-muted">No transactions yet</p>
+    return <p className="py-6 text-center text-muted">{emptyMessage}</p>
   }
   if (!grouped) {
     return (

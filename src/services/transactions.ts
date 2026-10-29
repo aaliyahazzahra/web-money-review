@@ -18,6 +18,7 @@ interface TransactionRow {
 export interface TransactionFilter {
   from: string
   to: string
+  type?: TransactionType
   categoryId?: number
 }
 
@@ -49,6 +50,7 @@ export async function listTransactions(f: TransactionFilter): Promise<Transactio
     .select(COLUMNS)
     .gte('transaction_date', f.from)
     .lte('transaction_date', f.to)
+  if (f.type !== undefined) query = query.eq('type', f.type)
   if (f.categoryId !== undefined) query = query.eq('category_id', f.categoryId)
   const { data, error } = await query
     .order('transaction_date', { ascending: false })
@@ -67,11 +69,15 @@ export async function getBalance(): Promise<number> {
   return Number((data as { balance: number | string } | null)?.balance ?? 0)
 }
 
+/**
+ * Transaksi yang paling baru diinput (urut created_at), bukan yang tanggal transaksinya paling baru,
+ * supaya transaksi tanggal lampau yang baru dilengkapi tetap muncul di Recent.
+ */
 export async function listRecentTransactions(limit = 5): Promise<Transaction[]> {
   const { data, error } = await supabase
     .from('vw_transactions')
     .select(COLUMNS)
-    .order('transaction_date', { ascending: false })
+    .order('created_at', { ascending: false })
     .order('id', { ascending: false })
     .limit(limit)
   throwIfError(error)

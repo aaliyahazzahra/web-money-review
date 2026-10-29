@@ -3,7 +3,7 @@ import { createFakeSupabase } from '../test/fakeSupabase'
 const fake = createFakeSupabase()
 vi.mock('./supabase', () => ({ supabase: fake.client }))
 
-const { deleteTransaction, listTransactions, createTransaction, getBalance } = await import('./transactions')
+const { deleteTransaction, listTransactions, listRecentTransactions, createTransaction, getBalance } = await import('./transactions')
 
 beforeEach(() => {
   fake.calls.length = 0
@@ -35,6 +35,30 @@ describe('transactions service', () => {
       id: 1, type: 'expense', amount: 25000, categoryId: 3, date: '2026-09-30', note: null,
       categoryName: 'Old', categoryIcon: 'bus', categoryColor: '#2F6B9A', categoryArchived: true,
     }])
+  })
+
+  it('filters by type and category when given', async () => {
+    fake.queue({ data: [] })
+    await listTransactions({ from: '2026-10-01', to: '2026-10-31', type: 'income', categoryId: 3 })
+    expect(fake.calls.filter((c) => c.method === 'eq').map((c) => c.args)).toEqual([['type', 'income'], ['category_id', 3]])
+  })
+
+  it('does not filter by type when none is given', async () => {
+    fake.queue({ data: [] })
+    await listTransactions({ from: '2026-10-01', to: '2026-10-31' })
+    expect(fake.methods()).not.toContain('eq')
+  })
+
+  it('lists recent transactions by input time, not transaction date', async () => {
+    fake.queue({ data: [] })
+    await listRecentTransactions(5)
+    expect(fake.find('from')?.args).toEqual(['vw_transactions'])
+    expect(fake.calls.filter((c) => c.method === 'order').map((c) => c.args)).toEqual([
+      ['created_at', { ascending: false }],
+      ['id', { ascending: false }],
+    ])
+    expect(fake.find('limit')?.args).toEqual([5])
+    expect(fake.methods()).not.toContain('gte')
   })
 
   it('reads the all-time balance computed by the database', async () => {

@@ -2,6 +2,17 @@
 
 Semua perubahan penting pada proyek ini akan didokumentasikan dalam file ini. Format penulisan didasarkan pada [SOP Manajemen Git dan Repositori](https://sos.nurulfikri.id/documentation/books/9/pages/15?shelf=3).
 
+## [0.5.0] - 2026-10-29
+
+### Added
+
+- Filter jenis transaksi **All / Expense / Income** di halaman Transactions (default All), di samping filter bulan. Pilihan kategori mengikuti jenis yang dipilih dan dikelompokkan per jenis saat All.
+- Pesan saat tidak ada transaksi yang cocok dengan filter, mis. "No transactions for Mom in Oct 2026".
+
+### Changed
+
+- **Recent** di Home kini menampilkan 5 transaksi yang terakhir diinput (urut waktu input), bukan 5 transaksi dengan tanggal paling baru. Transaksi tanggal lampau yang baru dilengkapi langsung terlihat di Recent.
+
 ## [0.4.0] - 2026-10-28
 
 ### Added
