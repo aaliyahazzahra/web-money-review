@@ -18,6 +18,7 @@ interface TransactionRow {
 export interface TransactionFilter {
   from: string
   to: string
+  type?: TransactionType
   categoryId?: number
 }
 
@@ -49,6 +50,7 @@ export async function listTransactions(f: TransactionFilter): Promise<Transactio
     .select(COLUMNS)
     .gte('transaction_date', f.from)
     .lte('transaction_date', f.to)
+  if (f.type !== undefined) query = query.eq('type', f.type)
   if (f.categoryId !== undefined) query = query.eq('category_id', f.categoryId)
   const { data, error } = await query
     .order('transaction_date', { ascending: false })
