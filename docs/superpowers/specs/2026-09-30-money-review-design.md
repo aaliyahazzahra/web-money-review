@@ -99,7 +99,7 @@ Navigasi:
 |---|---|
 | **Login** | Email + password, tombol "Log in". Tidak ada tautan daftar. |
 | **Home** | Kartu **Balance** = saldo keseluruhan lintas bulan (total income − total expense dari semua transaksi), lalu Income dan Expense bulan berjalan. Di bawahnya form input cepat, lalu 5 transaksi yang terakhir diinput (bukan tanggal transaksi terbaru). *(Revisi 2026-10-02: sebelumnya kartu Net hanya bulan berjalan, sehingga tampil minus bila pemasukan bulan lalu belum terpakai.)* |
-| **Transactions** | Filter bulan (default bulan berjalan) dan kategori (default semua). Daftar dikelompokkan per tanggal, terbaru di atas. Ketuk item untuk membuka form edit (form yang sama dengan input) beserta tombol Delete. Delete selalu meminta konfirmasi. |
+| **Transactions** | Filter bulan (wajib, default bulan berjalan), jenis All/Expense/Income (default All), dan kategori (opsional, default semua; pilihan kategori mengikuti jenis, kategori yang tidak cocok dengan jenis baru otomatis dilepas). Hasil kosong menampilkan pesan sesuai filter. *(Revisi 2026-10-29: menambah filter jenis.)* Daftar dikelompokkan per tanggal, terbaru di atas. Ketuk item untuk membuka form edit (form yang sama dengan input) beserta tombol Delete. Delete selalu meminta konfirmasi. |
 | **Charts** | Pemilih bulan. Donut pengeluaran per kategori untuk bulan terpilih (maks. 7 irisan, sisanya digabung menjadi "Other"), dengan legenda nominal dan persentase di bawahnya. Grafik batang income vs expense selama 6 bulan terakhir (sampai bulan terpilih). Dioptimalkan untuk laptop, tetap bisa dibuka di HP. |
 | **Settings** | Kelola kategori, tema (System / Light / Dark), ganti password, Log out. |
 

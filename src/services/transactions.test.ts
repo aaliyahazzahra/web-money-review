@@ -37,6 +37,18 @@ describe('transactions service', () => {
     }])
   })
 
+  it('filters by type and category when given', async () => {
+    fake.queue({ data: [] })
+    await listTransactions({ from: '2026-10-01', to: '2026-10-31', type: 'income', categoryId: 3 })
+    expect(fake.calls.filter((c) => c.method === 'eq').map((c) => c.args)).toEqual([['type', 'income'], ['category_id', 3]])
+  })
+
+  it('does not filter by type when none is given', async () => {
+    fake.queue({ data: [] })
+    await listTransactions({ from: '2026-10-01', to: '2026-10-31' })
+    expect(fake.methods()).not.toContain('eq')
+  })
+
   it('lists recent transactions by input time, not transaction date', async () => {
     fake.queue({ data: [] })
     await listRecentTransactions(5)
